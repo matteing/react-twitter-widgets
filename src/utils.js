@@ -92,5 +92,5 @@ export function useShallowCompareMemoize(value) {
 }
 
 export function cloneShallow(value) {
-  return typeof value === "object" ? { ...value } : value;
+  return typeof value === "object" ? Object.assign({}, value) : value;
 }
