@@ -45,7 +45,7 @@ function useTwitterWidget(factoryFunctionName, primaryArg, options, onLoad) {
     if (ref.current) {
       removeChildrenWithAttribute(ref.current, childDivIdentifyingAttribute);
 
-      async function loadWidget() {
+      function loadWidget() {
         if (!ref || !ref.current) {
           return;
         }
@@ -54,19 +54,17 @@ function useTwitterWidget(factoryFunctionName, primaryArg, options, onLoad) {
         childEl.setAttribute(childDivIdentifyingAttribute, "yes");
         ref.current.appendChild(childEl);
 
-        try {
-          const wf = await twWidgetFactory();
-
+        twWidgetFactory().then((wf) => {
           // primaryArg (possibly an object) and options must be cloned
           // since twitter mutates them (gah!).
           // There currently aren't any nested arrays or objects, so they
           // can be cloned in a shallow manner.
-          const resultMaybe = await wf[factoryFunctionName](
+          return wf[factoryFunctionName](
             cloneShallow(primaryArg),
             childEl,
             cloneShallow(options)
           );
-
+        }).then((resultMaybe) => {
           // Twitter returns undefined if widget creation fails.
           // However, if deps are stale (isCanceled), suppress error (likely race condition).
           if (!resultMaybe && !isCanceled) {
@@ -75,26 +73,26 @@ function useTwitterWidget(factoryFunctionName, primaryArg, options, onLoad) {
                 "Tweet, ensure the screenName/tweetId exists."
             );
           }
-        } catch (e) {
+
+          if (!ref || !ref.current) {
+            return;
+          }
+
+          if (isCanceled) {
+            if (childEl) {
+              childEl.remove();
+            }
+            return;
+          }
+
+          if (onLoad) {
+            onLoad();
+          }
+        })
+        .catch((e) => {
           console.error(e);
           setError(e);
-          return;
-        }
-
-        if (!ref || !ref.current) {
-          return;
-        }
-
-        if (isCanceled) {
-          if (childEl) {
-            childEl.remove();
-          }
-          return;
-        }
-
-        if (onLoad) {
-          onLoad();
-        }
+        });
       }
 
       loadWidget();
