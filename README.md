@@ -51,7 +51,7 @@ Available widgets: `Timeline`, `Share`, `Follow`, `Hashtag`, `Mention`, `Tweet`
 **`Share`** requires a `url` prop.
 
 **`Follow`** and **`Mention`** require a `username` prop. NOTE that the Twitter
-documentation now refers to this as *screenName*.
+documentation now refers to this as _screenName_.
 
 **`Hashtag`** requires a `hashtag` prop.
 
@@ -69,10 +69,19 @@ All widgets accept these props.
   - Render prop. Rendered if widget cannot be loaded (no internet connection, screenName not found, bad props, etc).
   - Example: `renderError={(_err) => <p>Could not load timeline</p>}`
 
+### Lazy vs. Eager Loading
+
+By default, the remote Twitter library will be lazy-loaded when the first widget renders. To instead load it eagerly, call `eagerLoadTwitterLibrary`.
+
+```js
+import { eagerLoadTwitterLibrary } from "react-twitter-widgets";
+eagerLoadTwitterLibrary();
+```
+
 ## Further Information
 
-* This library loads the remote *Twitter for Websites* script.
-* Twitter widgets are only loaded in the browser. A blank div will be rendered during SSR.
+- This library loads the remote _Twitter for Websites_ library.
+- Twitter widgets are only loaded in the browser. A blank div will be rendered during SSR.
 
 ## Contributing
 
@@ -84,7 +93,7 @@ All widgets accept these props.
 
 ## Credits
 
-* Andrew Suzuki - @andrewsuzuki - [andrewsuzuki.com](http://andrewsuzuki.com)
+- Andrew Suzuki - @andrewsuzuki - [andrewsuzuki.com](http://andrewsuzuki.com)
 
 ## License
 

@@ -7,6 +7,8 @@ import {
   cloneShallow
 } from "./utils";
 
+export { loadTwitterLibrary as eagerLoadTwitterLibrary } from "./utils";
+
 const childDivIdentifyingAttribute = "twdiv";
 
 function useTwitterWidget(factoryFunctionName, primaryArg, options, onLoad) {

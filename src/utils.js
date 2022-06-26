@@ -11,14 +11,18 @@ export const canUseDOM = !!(
   window.document.createElement
 );
 
+export function loadTwitterLibrary() {
+  if (!loadjs.isDefined(twScriptName)) {
+    loadjs(twScriptUrl, twScriptName);
+  }
+}
+
 export function twWidgetFactory() {
   return new Promise((resolve, reject) => {
     const rejectWithError = () =>
       reject(new Error("Could not load remote twitter widgets js"));
 
-    if (!loadjs.isDefined(twScriptName)) {
-      loadjs(twScriptUrl, twScriptName);
-    }
+    loadTwitterLibrary();
 
     loadjs.ready(twScriptName, {
       success: () => {
