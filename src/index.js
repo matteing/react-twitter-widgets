@@ -45,16 +45,16 @@ function useTwitterWidget(factoryFunctionName, primaryArg, options, onLoad) {
     if (ref.current) {
       removeChildrenWithAttribute(ref.current, childDivIdentifyingAttribute);
 
-      function loadWidget() {
-        if (!ref || !ref.current) {
-          return;
-        }
+      if (!ref || !ref.current) {
+        return;
+      }
 
-        const childEl = document.createElement("div");
-        childEl.setAttribute(childDivIdentifyingAttribute, "yes");
-        ref.current.appendChild(childEl);
+      const childEl = document.createElement("div");
+      childEl.setAttribute(childDivIdentifyingAttribute, "yes");
+      ref.current.appendChild(childEl);
 
-        twWidgetFactory().then((wf) => {
+      twWidgetFactory()
+        .then(wf => {
           // primaryArg (possibly an object) and options must be cloned
           // since twitter mutates them (gah!).
           // There currently aren't any nested arrays or objects, so they
@@ -64,7 +64,8 @@ function useTwitterWidget(factoryFunctionName, primaryArg, options, onLoad) {
             childEl,
             cloneShallow(options)
           );
-        }).then((resultMaybe) => {
+        })
+        .then(resultMaybe => {
           // Twitter returns undefined if widget creation fails.
           // However, if deps are stale (isCanceled), suppress error (likely race condition).
           if (!resultMaybe && !isCanceled) {
@@ -89,13 +90,10 @@ function useTwitterWidget(factoryFunctionName, primaryArg, options, onLoad) {
             onLoad();
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.error(e);
           setError(e);
         });
-      }
-
-      loadWidget();
     }
 
     return () => {
