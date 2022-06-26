@@ -1,16 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
 import {
   canUseDOM,
-  twLoad,
   useShallowCompareMemoize,
   removeChildrenWithAttribute,
   twWidgetFactory,
   cloneShallow
 } from "./utils";
-
-if (canUseDOM) {
-  twLoad();
-}
 
 const childDivIdentifyingAttribute = "twdiv";
 
