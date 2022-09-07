@@ -1,6 +1,6 @@
 ---
 name: Bug Report or Feature Request
-about: ''
+about: 'Bugs or feature requests specifically for react-twitter-widgets'
 title: ''
 labels: ''
 assignees: ''
