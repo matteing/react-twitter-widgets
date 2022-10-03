@@ -1,6 +1,6 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FunctionComponent, ReactNode } from "react";
 
-declare module 'react-twitter-widgets' {
+declare module "matteing-fork-react-twitter-widgets" {
   export type onLoad = () => any;
   export type renderError = (error: Error) => ReactNode;
 
