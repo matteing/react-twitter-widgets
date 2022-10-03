@@ -13,7 +13,12 @@ export const canUseDOM = !!(
 
 export function loadTwitterLibrary() {
   if (!loadjs.isDefined(twScriptName)) {
-    loadjs(twScriptUrl, twScriptName);
+    loadjs(twScriptUrl, twScriptName, {
+      async: true,
+      before: function(path, scriptEl) {
+        scriptEl.setAttribute("defer", "defer");
+      }
+    });
   }
 }
 
